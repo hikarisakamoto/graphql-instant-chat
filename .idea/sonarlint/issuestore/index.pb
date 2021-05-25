@@ -9,3 +9,5 @@ B
 client/src/App.jsx,5/0/502dd2d95a0b9744902f19bb45ceb8ccf0cf63a2
 C
 client/package.json,a/d/ad8a30996233c30cdd545dbf5f18765b86e6bf64
+C
+client/src/Chat.jsx,3/2/3259b0e540c686d511025a519c13943e102cc708
