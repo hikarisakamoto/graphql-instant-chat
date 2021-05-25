@@ -1,15 +1,24 @@
 import React from 'react';
 import {ApolloClient, ApolloProvider, gql, InMemoryCache, useMutation, useQuery} from '@apollo/client';
+import {WebSocketLink} from "@apollo/client/link/ws";
 import {Button, Col, Container, FormInput, Row} from "shards-react";
 
+const link = new WebSocketLink({
+    uri: `ws://localhost:4000/`,
+    options: {
+        reconnect: true
+    }
+})
+
 const client = new ApolloClient({
+    link,
     uri: 'http://localhost:4000/',
     cache: new InMemoryCache()
 });
 
 const GET_MESSAGES = gql`
     query {
-        message {
+        messages {
             id
             content
             user
@@ -17,14 +26,18 @@ const GET_MESSAGES = gql`
     }
 `;
 
+
 const POST_MESSAGE = gql`
-    mutation ($user:String!, $content:String!){
-        postMessage(user:$user, content: $content)
+    mutation($user: String!, $content: String!) {
+        postMessage(user: $user, content: $content)
     }
 `;
 
+
 const Messages = ({user}) => {
-    const {data} = useQuery(GET_MESSAGES);
+    const {data} = useQuery(GET_MESSAGES, {
+        pollInterval: 500,
+    });
     if (!data) {
         null;
     }
@@ -113,10 +126,11 @@ const Chat = () => {
                     <FormInput
                         label="Content"
                         value={state.content}
-                        onChange={(evt) => stateSet({
-                            ...state,
-                            user: evt.target.value,
-                        })
+                        onChange={(evt) =>
+                            stateSet({
+                                ...state,
+                                content: evt.target.value,
+                            })
                         }
                         onKeyUp={(evt) => {
                             if (evt.keyCode === 13) {
@@ -126,10 +140,9 @@ const Chat = () => {
                     />
                 </Col>
                 <Col xs={2} style={{padding: 0}}>
-                    <Button onClick={() => onSend()}>
+                    <Button onClick={() => onSend()} style={{width: "100%"}}>
                         Send
                     </Button>
-
                 </Col>
             </Row>
         </Container>
