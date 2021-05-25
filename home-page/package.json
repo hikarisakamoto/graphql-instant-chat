@@ -12,8 +12,8 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Hikari",
-    "email": "h@s.com"
+    "name": "Hikari Sakamoto",
+    "email": "hikarisakamoto@gmail.com"
   },
   "devDependencies": {
     "@babel/core": "7.13.15",

@@ -83,7 +83,7 @@ const Messages = ({ user }) => {
 
 const Chat = () => {
     const [state, stateSet] = React.useState({
-        user: "Jack",
+        user: "You Name Here",
         content: "",
     });
     const [postMessage] = useMutation(POST_MESSAGE);
